@@ -9,15 +9,22 @@ import retrofit2.http.Query
 
 interface APIServices {
     @GET(NOW_PLAYING_END_POINT)
-    suspend fun getNowPlaying(@Query("api_key") apiKey: String = BuildConfig.API_KEY): MoviesResponse
+    suspend fun getNowPlaying(
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+        @Query("page") page: Int
+    ): MoviesResponse
 
     @GET(TOP_RATED_END_POINT)
-    suspend fun getTopRated(@Query("api_key") apiKey: String = BuildConfig.API_KEY): MoviesResponse
+    suspend fun getTopRated(
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
+        @Query("page") page: Int
+    ): MoviesResponse
 
     @GET(SEARCH_END_POINT)
     suspend fun searchMovie(
         @Query("api_key") apiKey: String = BuildConfig.API_KEY,
-        @Query("query") keyword: String
+        @Query("query") keyword: String,
+        @Query("page") page: Int
     ): MoviesResponse
 
     @GET(MOVIE_DETAILS_END_POINT)

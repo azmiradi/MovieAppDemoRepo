@@ -1,6 +1,7 @@
 package com.azmiradi.movieappdemo.domain.entity
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -8,13 +9,13 @@ data class MoviesResponse(
     val page: Int? = null,
     @field:SerializedName("total_pages")
     val totalPages: Int? = null,
-    val results: List<MovieItem?>? = null,
+    val results: List<MovieItem>? = null,
     @field:SerializedName("total_results")
     val totalResults: Int? = null
 )
 
 @Entity
-open class MovieItem(
+data class MovieItem(
     val title: String? = null,
     @field:SerializedName("poster_path")
     val posterPath: String? = null,
@@ -25,8 +26,8 @@ open class MovieItem(
     @field:SerializedName("vote_count")
     val voteCount: Int? = null,
     val overview: String? = null,
+
+    @Ignore
+    val isFavorite:Boolean
 )
-
-data class Genre(val id: Int? = null, val name: String)
-
 
