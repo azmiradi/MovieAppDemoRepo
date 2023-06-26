@@ -26,8 +26,6 @@ data class MovieItem(
     @field:SerializedName("vote_count")
     val voteCount: Int? = null,
     val overview: String? = null,
-
-    @Ignore
-    val isFavorite:Boolean
+    val isFavorite:Boolean = false
 )
 

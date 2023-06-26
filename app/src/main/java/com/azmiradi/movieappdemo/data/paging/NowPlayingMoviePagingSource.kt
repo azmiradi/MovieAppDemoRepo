@@ -5,6 +5,8 @@ import androidx.paging.PagingState
 import com.azmiradi.movieappdemo.data.db.MoviesDao
 import com.azmiradi.movieappdemo.data.remote.APIServices
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class NowPlayingMoviePagingSource(
     private val apiServices: APIServices,
@@ -12,19 +14,21 @@ class NowPlayingMoviePagingSource(
 ) : PagingSource<Int, MovieItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
-            val page = params.key ?: 1
-            val items = apiServices.getNowPlaying(page = page)
+            withContext(Dispatchers.IO)
+            {
+                val page = params.key ?: 1
+                val items = apiServices.getNowPlaying(page = page)
 
-            val mappedMovies = items.results?.map {
-                it.copy(isFavorite = moviesDao.isFavoriteMovie(it.id ?: 0))
-            } ?: emptyList()
+                val mappedMovies = items.results?.map {
+                    it.copy(isFavorite = moviesDao.isFavoriteMovie(it.id ?: 0))
+                } ?: emptyList()
 
-            LoadResult.Page(
-                data = mappedMovies,
-                prevKey = if (page == 1) null else page - 1,
-                nextKey = if (mappedMovies.isEmpty()) null else page + 1
-            )
-
+                LoadResult.Page(
+                    data = mappedMovies,
+                    prevKey = if (page == 1) null else page - 1,
+                    nextKey = if (mappedMovies.isEmpty()) null else page + 1
+                )
+            }
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
