@@ -16,7 +16,7 @@ class MovieRepositoryImpl constructor(
     private val moviesDao: MoviesDao
 ) : MovieRepository {
 
-    override suspend fun getNowPlaying(): Flow<PagingData<MovieItem>> {
+    override  fun getNowPlaying(): Flow<PagingData<MovieItem>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
@@ -25,7 +25,7 @@ class MovieRepositoryImpl constructor(
         ).flow
     }
 
-    override suspend fun getTopRated(): Flow<PagingData<MovieItem>> {
+    override fun getTopRated(): Flow<PagingData<MovieItem>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
@@ -34,7 +34,7 @@ class MovieRepositoryImpl constructor(
         ).flow
     }
 
-    override suspend fun searchMovie(keyword: String): Flow<PagingData<MovieItem>> {
+    override  fun searchMovie(keyword: String): Flow<PagingData<MovieItem>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
