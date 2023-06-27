@@ -93,6 +93,8 @@ dependencies {
 
     //Coil for load Image
     implementation "io.coil-kt:coil-compose:2.4.0"
+    implementation "io.coil-kt:coil-gif:2.4.0"
+
 
     //pager for Slider
     implementation "com.google.accompanist:accompanist-pager-indicators:0.20.3"
@@ -108,4 +110,8 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     implementation "androidx.paging:paging-compose:3.2.0-rc01"
     implementation "androidx.paging:paging-compose:3.2.0-rc01"
+
+
+    implementation "androidx.compose.material3:material3:1.1.0"
+    implementation "androidx.compose.material3:material3-window-size-class:1.1.0"
 }

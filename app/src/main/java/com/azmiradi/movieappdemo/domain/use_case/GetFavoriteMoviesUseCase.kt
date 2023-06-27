@@ -6,8 +6,6 @@ import com.azmiradi.movieappdemo.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetSavedMoviesUseCase @Inject constructor(private val repository: MovieRepository) {
-    operator fun invoke(): Flow<PagingData<MovieItem>> {
-        return repository.getAllMovies()
-    }
+class GetFavoriteMoviesUseCase @Inject constructor(private val repository: MovieRepository) {
+    operator fun invoke(): Flow<PagingData<MovieItem>> = repository.getAllMovies()
 }

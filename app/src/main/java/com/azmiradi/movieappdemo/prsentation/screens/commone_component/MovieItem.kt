@@ -1,7 +1,6 @@
 package com.azmiradi.movieappdemo.prsentation.screens.commone_component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,11 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
@@ -32,17 +31,18 @@ import com.azmiradi.movieappdemo.ui.theme.MovieAppDemoTheme
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ComposeMovieItem(
-    movie: MovieItem
+    movie: MovieItem,
+    modifier: Modifier,
+    onClick:()->Unit
 ) {
     Card(
-        modifier = Modifier
-            .clickable {
-
-            },
+        modifier = modifier,
         elevation = 10.dp,
         shape = RoundedCornerShape(15.dp),
+        onClick = onClick
     ) {
         Box(
             modifier = Modifier
@@ -114,8 +114,11 @@ fun Preview() {
                 voteCount = 200,
                 overview = "Interstellar chronicles the adventures of a group the vast distances involved in an interstellar voyage.",
                 isFavorite = false
-            )
-        )
+            ),
+            modifier = Modifier
+        ) {
+
+        }
     }
 }
 

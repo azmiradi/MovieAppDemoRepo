@@ -1,30 +1,37 @@
 package com.azmiradi.movieappdemo
 
-import android.app.Application
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.azmiradi.movieappdemo.prsentation.screens.movie.MovieScreen
+import androidx.navigation.compose.rememberNavController
+import com.azmiradi.movieappdemo.prsentation.screens.navigation.BottomBar
+import com.azmiradi.movieappdemo.prsentation.screens.navigation.NavigationController
+import com.azmiradi.movieappdemo.prsentation.screens.search.SearchBarSample
 import com.azmiradi.movieappdemo.ui.theme.MovieAppDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val navigationController = rememberNavController()
+
             MovieAppDemoTheme {
-                Surface(
+                Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    bottomBar = {
+                        BottomBar(navigationController)
+                    },
+                    topBar = { SearchBarSample(navigationController) },
                 ) {
-                    MovieScreen()
+                    NavigationController(navigationController, it)
                 }
             }
         }

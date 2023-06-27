@@ -1,8 +1,9 @@
 package com.azmiradi.movieappdemo.prsentation.screens.movie
 
-import android.util.Log
+import android.os.Build.VERSION.SDK_INT
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,19 +23,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import com.azmiradi.movieappdemo.R
+import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.prsentation.screens.commone_component.ComposeMovieItem
 import kotlinx.coroutines.launch
 
 @Composable
-fun MovieScreen() {
-    val viewModel = hiltViewModel<MovieViewModel>()
-    val movies = viewModel.moviePagingFlow.collectAsLazyPagingItems()
+fun MovieScreen(
+    movies: LazyPagingItems<MovieItem>
+) {
     val context = LocalContext.current
     val state = rememberLazyGridState()
 
@@ -43,7 +51,6 @@ fun MovieScreen() {
 
     LaunchedEffect(key1 = movies.loadState) {
         if (movies.loadState.refresh is LoadState.Error) {
-            Log.d("Error :: ", (movies.loadState.refresh as LoadState.Error).error.message ?: "")
             Toast.makeText(
                 context,
                 "Error: " + (movies.loadState.refresh as LoadState.Error).error.message,
@@ -56,23 +63,32 @@ fun MovieScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         if (movies.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Center)
+            )
+        } else if (movies.itemCount == 0) {
+            EmptyState(
+                modifier = Modifier
+                    .fillMaxSize()
             )
         } else {
             LazyVerticalGrid(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 columns = GridCells.Fixed(2),
                 state = state
-                ) {
+            ) {
 
                 items(movies.itemCount) {
                     movies[it]?.let { movie ->
                         ComposeMovieItem(
-                            movie = movie
-                        )
+                            movie = movie,
+                            modifier = Modifier,
+                        ) {
+
+                        }
                     }
                 }
                 item {
@@ -90,7 +106,7 @@ fun MovieScreen() {
             ) {
                 FloatingActionButton(onClick = {
                     coroutineScope.launch {
-                        state.scrollToItem(0)
+                        state.animateScrollToItem(0)
                     }
                 }) {
                     Icon(
@@ -101,4 +117,37 @@ fun MovieScreen() {
             }
         }
     }
+}
+
+@Composable
+fun EmptyState(modifier: Modifier) {
+    Box(modifier) {
+        GifImage(Modifier.align(Center))
+    }
+}
+
+
+@Composable
+fun GifImage(modifier: Modifier) {
+    val context = LocalContext.current
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            if (SDK_INT >= 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }
+        .build()
+    Image(
+        painter = rememberAsyncImagePainter(
+            ImageRequest.Builder(context).data(data = R.drawable.no_data)
+                .apply(block = {
+                    size(450)
+                }).build(),
+            imageLoader = imageLoader
+        ),
+        contentDescription = null,
+        modifier = modifier,
+    )
 }
