@@ -49,17 +49,17 @@ data class BottomBarItem(@StringRes val title: Int, val root: String, val icon: 
 val bottomNavigationList = listOf(
     BottomBarItem(
         R.string.now_playing,
-        Destinations.NowPlayingMovie.root,
+        Destinations.NowPlayingMovie.route,
         Icons.Filled.PlayCircle
     ),
     BottomBarItem(
         R.string.top_rated,
-        Destinations.TopRatedMovie.root,
+        Destinations.TopRatedMovie.route,
         Icons.Filled.BorderTop
     ),
     BottomBarItem(
         R.string.favorite,
-        Destinations.FavoriteMovie.root,
+        Destinations.FavoriteMovie.route,
         Icons.Filled.FavoriteBorder
     )
 )

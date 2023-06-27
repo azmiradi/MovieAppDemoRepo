@@ -27,9 +27,8 @@ interface APIServices {
         @Query("page") page: Int
     ): MoviesResponse
 
-    @GET(MOVIE_DETAILS_END_POINT)
+    @GET("$MOVIE_DETAILS_END_POINT?api_key=${BuildConfig.API_KEY}")
     suspend fun getMovieDetails(
-        @Query("api_key") apiKey: String = BuildConfig.API_KEY,
-        @Path("movie_id") movieID: String
+        @Path("movie_id") movieID: Int
     ): MovieItem
 }

@@ -61,6 +61,11 @@ class MovieRepositoryImpl constructor(
         ).flow
     }
 
-    override suspend fun getMovieDetails(movieID: String) =
-        apiServices.getMovieDetails(movieID = movieID)
+    override suspend fun getMovieDetails(movieID: Int): MovieItem {
+        return apiServices.getMovieDetails(movieID = movieID)
+            .copy(isFavorite = moviesDao.isFavoriteMovie(movieID))
+    }
+
+
+
 }

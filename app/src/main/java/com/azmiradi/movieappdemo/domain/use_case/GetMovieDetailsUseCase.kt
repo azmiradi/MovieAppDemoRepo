@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetMovieDetailsUseCase @Inject constructor(private val repository: MovieRepository) {
-    operator fun invoke(movieID: String): Flow<Resource<MovieItem>> =
+    operator fun invoke(movieID: Int): Flow<Resource<MovieItem>> =
         flow {
             emit(Resource.Loading())
             try {

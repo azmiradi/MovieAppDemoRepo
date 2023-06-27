@@ -46,11 +46,12 @@ import com.azmiradi.movieappdemo.BuildConfig
 import com.azmiradi.movieappdemo.R
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.prsentation.screens.movie.EmptyState
+import com.azmiradi.movieappdemo.prsentation.screens.navigation.Destinations
 import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarSample(navHostController: NavHostController) {
+fun MovieSearch(navHostController: NavHostController) {
     var keyword by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
     val viewMode = hiltViewModel<SearchViewModel>()
@@ -129,6 +130,7 @@ fun SearchBarSample(navHostController: NavHostController) {
                                     },
                                     modifier = Modifier.clickable {
                                         active = false
+                                        navHostController.navigate(Destinations.MovieDetails.route.replace("{movie_id}",movie.id.toString()))
                                     }
                                 )
                             }

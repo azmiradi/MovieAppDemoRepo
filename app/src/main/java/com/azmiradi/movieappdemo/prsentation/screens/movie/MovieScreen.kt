@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.ImageLoader
@@ -37,11 +38,13 @@ import coil.request.ImageRequest
 import com.azmiradi.movieappdemo.R
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.prsentation.screens.commone_component.ComposeMovieItem
+import com.azmiradi.movieappdemo.prsentation.screens.navigation.Destinations
 import kotlinx.coroutines.launch
 
 @Composable
 fun MovieScreen(
-    movies: LazyPagingItems<MovieItem>
+    movies: LazyPagingItems<MovieItem>,
+    navigationController: NavHostController
 ) {
     val context = LocalContext.current
     val state = rememberLazyGridState()
@@ -87,7 +90,7 @@ fun MovieScreen(
                             movie = movie,
                             modifier = Modifier,
                         ) {
-
+                            navigationController.navigate(Destinations.MovieDetails.route.replace("{movie_id}",movie.id.toString()))
                         }
                     }
                 }
