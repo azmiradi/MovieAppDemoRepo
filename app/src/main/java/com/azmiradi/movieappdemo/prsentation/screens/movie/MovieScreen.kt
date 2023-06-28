@@ -14,8 +14,10 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoveUp
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -37,6 +39,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.azmiradi.movieappdemo.R
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
+import com.azmiradi.movieappdemo.prsentation.exeptions.mapException
 import com.azmiradi.movieappdemo.prsentation.screens.commone_component.ComposeMovieItem
 import com.azmiradi.movieappdemo.prsentation.screens.navigation.Destinations
 import kotlinx.coroutines.launch
@@ -56,7 +59,7 @@ fun MovieScreen(
         if (movies.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
-                "Error: " + (movies.loadState.refresh as LoadState.Error).error.message,
+                context.getString((movies.loadState.refresh as LoadState.Error).error.mapException()),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -121,6 +124,8 @@ fun MovieScreen(
         }
     }
 }
+
+
 
 @Composable
 fun EmptyState(modifier: Modifier) {

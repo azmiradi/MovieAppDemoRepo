@@ -6,11 +6,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +23,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -28,6 +34,7 @@ import com.azmiradi.movieappdemo.BuildConfig.IMAGE_BASE_URL
 import com.azmiradi.movieappdemo.R
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.ui.theme.MovieAppDemoTheme
+import com.azmiradi.movieappdemo.ui.theme.Pink80
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
@@ -68,6 +75,21 @@ fun ComposeMovieItem(
                 contentScale = ContentScale.FillBounds,
                 placeholder = painterResource(id = R.drawable.loading_image),
             )
+
+            if (movie.isFavorite) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "",
+                    tint = Pink80,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(10.dp)
+                        .size(30.dp)
+                        .background(DarkGray.copy(alpha = 0.7f), CircleShape)
+                        .padding(5.dp)
+
+                )
+            }
 
             Column(
                 modifier = Modifier

@@ -6,5 +6,9 @@
     <string name="search">Search…</string>
     <string name="add_to_favorite">Add to Favorites</string>
     <string name="movie_added">Movie Added To Favorites Successfully</string>
+    <string name="network_error">Network Error</string>
+    <string name="check_internet_connection">Check Internet Connection</string>
+    <string name="something_error">Occur Something Error</string>
+    <string name="movie_deleted">Movie Deleted From Favorites Successfully</string>
 
 </resources>

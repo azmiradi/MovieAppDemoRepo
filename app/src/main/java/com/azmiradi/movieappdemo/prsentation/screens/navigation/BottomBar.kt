@@ -11,8 +11,7 @@ import androidx.compose.material.icons.filled.BorderTop
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,16 +20,19 @@ import androidx.navigation.NavController
 import com.azmiradi.movieappdemo.R
 
 @Composable
-fun BottomBar(navController: NavController) {
-    val selectedItem = remember { mutableStateOf(0) }
+fun BottomBar(navController: NavController, selectedItem: MutableState<Int>) {
     BottomNavigation(
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.White
     ) {
         bottomNavigationList.forEachIndexed { index, item ->
             BottomNavigationItem(
-                icon = { Icon(item.icon, contentDescription = null) },
-                label = { Text(stringResource(id = item.title)) },
+                icon = {
+                    Icon(item.icon, contentDescription = null)
+                },
+                label = {
+                    Text(stringResource(id = item.title))
+                },
                 selected = selectedItem.value == index,
                 onClick = {
                     selectedItem.value = index

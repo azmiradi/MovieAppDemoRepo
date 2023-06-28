@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.azmiradi.movieappdemo.data.db.MoviesDao
 import com.azmiradi.movieappdemo.data.paging.NowPlayingMoviePagingSource
 import com.azmiradi.movieappdemo.data.paging.SearchMoviePagingSource
+import com.azmiradi.movieappdemo.data.paging.TopRatedMoviePagingSource
 import com.azmiradi.movieappdemo.data.remote.APIServices
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.domain.repository.MovieRepository
@@ -29,7 +30,7 @@ class MovieRepositoryImpl constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                NowPlayingMoviePagingSource(apiServices, moviesDao)
+                TopRatedMoviePagingSource(apiServices, moviesDao)
             }
         ).flow
     }

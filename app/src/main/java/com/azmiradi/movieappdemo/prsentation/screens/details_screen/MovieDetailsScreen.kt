@@ -22,13 +22,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +47,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.azmiradi.movieappdemo.BuildConfig
 import com.azmiradi.movieappdemo.R
+import com.azmiradi.movieappdemo.ui.theme.DarkRed
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
@@ -57,15 +59,16 @@ fun MovieDetailsScreen(
     val viewModel = hiltViewModel<MovieDetailsViewModel>()
     val movieDetails = viewModel.movieDetailsState.value
     val context = LocalContext.current
+    val movieDeletedMsg = stringResource(id = R.string.movie_deleted)
+
     LaunchedEffect(movieId) {
         viewModel.getMovies(movieId)
     }
 
     LaunchedEffect(key1 = movieDetails) {
-        if (movieDetails.error.isNotEmpty()) {
+        movieDetails.error?.let {
             Toast.makeText(
-                context,
-                "Error: " + movieDetails.error,
+                context, context.getString(it),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -114,6 +117,29 @@ fun MovieDetailsScreen(
                         tint = Color.White
                     )
                 }
+
+                if (movieDetails.data.isFavorite) {
+                    IconButton(
+                        onClick = {
+                            viewModel.deleteMovie(movieDetails.data)
+                            Toast.makeText(context, movieDeletedMsg, Toast.LENGTH_SHORT).show()
+                        },
+                        Modifier
+                            .align(TopEnd)
+                            .padding(10.dp)
+                            .clip(CircleShape)
+                            .background(Color.Gray.copy(alpha = 0.4f))
+
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "",
+                            Modifier.align(Center),
+                            tint = DarkRed
+                        )
+                    }
+                }
+
                 Column(
                     Modifier
                         .fillMaxWidth()

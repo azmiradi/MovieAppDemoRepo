@@ -32,12 +32,13 @@ class MainActivity : ComponentActivity() {
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
                 showSearchBar.value = destination.route != Destinations.MovieDetails.route
             }
-            MovieAppDemoTheme (){
+            MovieAppDemoTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
+                        val selectedItem = rememberSaveable { mutableStateOf(0) }
                         AnimatedVisibility(visible = showSearchBar.value) {
-                            BottomBar(navController)
+                            BottomBar(navController,selectedItem)
                         }
                     },
                     topBar = {

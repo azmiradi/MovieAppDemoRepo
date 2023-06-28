@@ -4,5 +4,5 @@ import com.azmiradi.movieappdemo.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class GetNowPlayingMoviesUseCase @Inject constructor(private val repository: MovieRepository) {
-    operator fun invoke() = repository.getTopRated()
+    operator fun invoke() = repository.getNowPlaying()
 }
