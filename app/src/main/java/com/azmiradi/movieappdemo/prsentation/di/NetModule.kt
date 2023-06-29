@@ -1,7 +1,7 @@
 package com.azmiradi.movieappdemo.prsentation.di
 
 import com.azmiradi.movieappdemo.BuildConfig
-import com.azmiradi.movieappdemo.data.remote.APIServices
+import com.azmiradi.movieappdemo.data.remote.APIService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,7 +50,7 @@ object NetModule {
 
     @Singleton
     @Provides
-    fun provideApiServices(retrofit: Retrofit): APIServices {
-        return retrofit.create(APIServices::class.java)
+    fun provideApiServices(retrofit: Retrofit): APIService {
+        return retrofit.create(APIService::class.java)
     }
 }

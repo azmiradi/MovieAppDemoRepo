@@ -3,13 +3,13 @@ package com.azmiradi.movieappdemo.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.azmiradi.movieappdemo.data.db.MoviesDao
-import com.azmiradi.movieappdemo.data.remote.APIServices
+import com.azmiradi.movieappdemo.data.remote.APIService
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SearchMoviePagingSource(
-    private val apiServices: APIServices,
+    private val apiService: APIService,
     private val moviesDao: MoviesDao,
     private val keyword: String
 ) : PagingSource<Int, MovieItem>() {
@@ -18,7 +18,7 @@ class SearchMoviePagingSource(
             withContext(Dispatchers.IO)
             {
                 val page = params.key ?: 1
-                val items = apiServices.searchMovie(page = page, keyword = keyword)
+                val items = apiService.searchMovie(page = page, keyword = keyword)
 
                 val mappedMovies = items.results?.map {
                     it.copy(isFavorite = moviesDao.isFavoriteMovie(it.id ?: 0))

@@ -3,20 +3,20 @@ package com.azmiradi.movieappdemo.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.azmiradi.movieappdemo.data.db.MoviesDao
-import com.azmiradi.movieappdemo.data.remote.APIServices
+import com.azmiradi.movieappdemo.data.remote.APIService
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class TopRatedMoviePagingSource(
-    private val apiServices: APIServices,
+    private val apiService: APIService,
     private val moviesDao: MoviesDao
 ) : PagingSource<Int, MovieItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
             withContext(Dispatchers.IO){
                 val page = params.key ?: 1
-                val items = apiServices.getTopRated(page = page)
+                val items = apiService.getTopRated(page = page)
 
                 val mappedMovies = items.results?.map {
                     it.copy(isFavorite = moviesDao.isFavoriteMovie(it.id ?: 0))

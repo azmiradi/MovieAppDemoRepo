@@ -1,7 +1,7 @@
 package com.azmiradi.movieappdemo.prsentation.di
 
 import com.azmiradi.movieappdemo.data.db.MoviesDao
-import com.azmiradi.movieappdemo.data.remote.APIServices
+import com.azmiradi.movieappdemo.data.remote.APIService
 import com.azmiradi.movieappdemo.data.repository.MovieRepositoryImpl
 import com.azmiradi.movieappdemo.domain.repository.MovieRepository
 import dagger.Module
@@ -17,10 +17,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideMovieRepository(
-        apiServices: APIServices,
+        apiService: APIService,
         moviesDao: MoviesDao
     ): MovieRepository {
-        return MovieRepositoryImpl(apiServices, moviesDao)
+        return MovieRepositoryImpl(apiService, moviesDao)
     }
 
 }

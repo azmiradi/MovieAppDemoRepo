@@ -7,13 +7,13 @@ import com.azmiradi.movieappdemo.data.db.MoviesDao
 import com.azmiradi.movieappdemo.data.paging.NowPlayingMoviePagingSource
 import com.azmiradi.movieappdemo.data.paging.SearchMoviePagingSource
 import com.azmiradi.movieappdemo.data.paging.TopRatedMoviePagingSource
-import com.azmiradi.movieappdemo.data.remote.APIServices
+import com.azmiradi.movieappdemo.data.remote.APIService
 import com.azmiradi.movieappdemo.domain.entity.MovieItem
 import com.azmiradi.movieappdemo.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
-class MovieRepositoryImpl constructor(
-    private val apiServices: APIServices,
+internal class MovieRepositoryImpl constructor(
+    private val apiService: APIService,
     private val moviesDao: MoviesDao
 ) : MovieRepository {
 
@@ -21,7 +21,7 @@ class MovieRepositoryImpl constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                NowPlayingMoviePagingSource(apiServices, moviesDao)
+                NowPlayingMoviePagingSource(apiService, moviesDao)
             }
         ).flow
     }
@@ -30,7 +30,7 @@ class MovieRepositoryImpl constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                TopRatedMoviePagingSource(apiServices, moviesDao)
+                TopRatedMoviePagingSource(apiService, moviesDao)
             }
         ).flow
     }
@@ -39,7 +39,7 @@ class MovieRepositoryImpl constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                SearchMoviePagingSource(apiServices, moviesDao, keyword)
+                SearchMoviePagingSource(apiService, moviesDao, keyword)
             }
         ).flow
     }
@@ -63,7 +63,7 @@ class MovieRepositoryImpl constructor(
     }
 
     override suspend fun getMovieDetails(movieID: Int): MovieItem {
-        return apiServices.getMovieDetails(movieID = movieID)
+        return apiService.getMovieDetails(movieID = movieID)
             .copy(isFavorite = moviesDao.isFavoriteMovie(movieID))
     }
 

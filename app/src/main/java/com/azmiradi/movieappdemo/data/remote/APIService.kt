@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface APIServices {
+interface APIService {
     @GET(NOW_PLAYING_END_POINT)
     suspend fun getNowPlaying(
         @Query("api_key") apiKey: String = BuildConfig.API_KEY,
